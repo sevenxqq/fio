@@ -181,17 +181,17 @@ struct zone_split_index {
  * This describes a single thread/process executing a fio job.
  */
 struct thread_data {
-	struct flist_head opt_list;
+	struct flist_head opt_list;  // flist_head是一个双向链表的实现, opt_list是命令行参数序列？ 主要都在 options.c 文件，解析命令行参数
 	unsigned long flags;
-	struct thread_options o;
+	struct thread_options o;  // 线程相关的一些参数，挺多的，iodepth, iosize ...
 	void *eo;
-	pthread_t thread;
-	unsigned int thread_number;
+	pthread_t thread;  // 如果使用的是线程执行，在backend.c 里有创建， thread是线程号
+	unsigned int thread_number;  // 如果用进程，就用以下这些？（只看到number的减少，没看到增加在哪）
 	unsigned int subjob_number;
 	unsigned int groupid;
 	struct thread_stat ts __attribute__ ((aligned(8)));
 
-	int client_type;
+	int client_type;  // 这是对应的客户端？
 
 	struct io_log *slat_log;
 	struct io_log *clat_log;
@@ -200,7 +200,7 @@ struct thread_data {
 	struct io_log *bw_log;
 	struct io_log *iops_log;
 
-	struct workqueue log_compress_wq;
+	struct workqueue log_compress_wq;  // 
 
 	struct thread_data *parent;
 
